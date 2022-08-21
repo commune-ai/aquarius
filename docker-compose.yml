@@ -9,9 +9,14 @@ services:
       ES_JAVA_OPTS: "-Xms512m -Xmx512m"
       MAX_MAP_COUNT: "64000"
       discovery.type: "single-node"
-
   aquarius:
-      image: oceanprotocol/aquarius:${AQUARIUS_VERSION:-latest}
+
+      image: algocean/aquarius
+      build:
+        context: ./
+        dockerfile: Dockerfile
+      # image: oceanprotocol/aquarius:${AQUARIUS_VERSION:-latest}
+      
       ports:
         - 5000:5000
       networks:
@@ -37,9 +42,9 @@ services:
         ADDRESS_FILE: "/ocean-contracts/artifacts/address.json"
         DEPLOY_CONTRACTS: ${DEPLOY_CONTRACTS}
         NETWORK_NAME: ${CONTRACTS_NETWORK_NAME}
-        EVENTS_RPC: "http://172.15.0.3:8545"
+        EVENTS_RPC: ${NETWORK_RPC_URL}
         EVENTS_ALLOW: "0"
         RUN_EVENTS_MONITOR: "1"
       volumes:
       - ${OCEAN_ARTIFACTS_FOLDER}:/ocean-contracts/artifacts/
-      - ./aquarius:/aquarius/aquarius
+      - ${PWD}/aquarius/aquarius:/aquarius/aquarius
