@@ -11,11 +11,12 @@ services:
       discovery.type: "single-node"
   aquarius:
 
-      image: algocean/aquarius
+      # image: algocean/aquarius
+      image: oceanprotocol/aquarius:${AQUARIUS_VERSION:-latest}
+
       build:
         context: ./
         dockerfile: Dockerfile
-      # image: oceanprotocol/aquarius:${AQUARIUS_VERSION:-latest}
       
       ports:
         - 5000:5000
